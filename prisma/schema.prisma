@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,10 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id Int @id @default(autoincrement())
-  username String @unique 
-  email String? @unique
-  fullname String
-  password String 
+model User {
+  id               Int               @id @default(autoincrement())
+  username         String            @unique
+  email            String            @unique
+  password         String
+  createdAt        DateTime          @default(now())
+  currentGroup     Group?            @relation("UserGroup", fields: [groupId], references: [id])
+  groupId          Int?
+  createdGroups    Group[]           @relation("GroupCreator")
+  groupInvitations GroupInvitation[] @relation("UserGroupInvitations")
+  role             Role              @default(USER)
+}
+
+model Group {
+  id          Int               @id @default(autoincrement())
+  name        String
+  creator     User              @relation("GroupCreator", fields: [creatorId], references: [id])
+  creatorId   Int
+  members     User[]            @relation("UserGroup")
+  invitations GroupInvitation[] @relation("GroupInvitations")
+  isApproved  Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+}
+
+model GroupInvitation {
+  id        Int              @id @default(autoincrement())
+  groupId   Int
+  userId    Int
+  status    InvitationStatus @default(PENDING)
+  invitedAt DateTime         @default(now())
+
+  group Group @relation("GroupInvitations", fields: [groupId], references: [id])
+  user  User  @relation("UserGroupInvitations", fields: [userId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
 }
