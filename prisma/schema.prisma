@@ -17,7 +17,9 @@ model User {
   groupId          Int?
   createdGroups    Group[]           @relation("GroupCreator")
   groupInvitations GroupInvitation[] @relation("UserGroupInvitations")
+  tasks            Task[]            @relation("UserTasks") // This defines the relation
   role             Role              @default(USER)
+  TaskAssignment   TaskAssignment[]
 }
 
 model Group {
@@ -27,8 +29,33 @@ model Group {
   creatorId   Int
   members     User[]            @relation("UserGroup")
   invitations GroupInvitation[] @relation("GroupInvitations")
+  tasks       Task[]            @relation("GroupTasks")
   isApproved  Boolean           @default(false)
   createdAt   DateTime          @default(now())
+}
+
+model Task {
+  id          Int              @id @default(autoincrement())
+  title       String
+  description String
+  deadline    DateTime
+  completed   Boolean          @default(false)
+  groupId     Int?
+  group       Group?           @relation("GroupTasks", fields: [groupId], references: [id])
+  assignments TaskAssignment[]
+  users       User[]           @relation("UserTasks") // This defines the relation
+}
+
+model TaskAssignment {
+  id          Int       @id @default(autoincrement())
+  taskId      Int
+  userId      Int
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  assignedAt  DateTime  @default(now())
+
+  task Task @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model GroupInvitation {

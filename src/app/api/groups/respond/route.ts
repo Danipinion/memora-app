@@ -50,16 +50,6 @@ export async function PATCH(request: Request) {
       );
     }
 
-    // Check if the invitation status is still PENDING
-    if (invitation.status !== InvitationStatus.PENDING) {
-      return NextResponse.json(
-        {
-          error: "Invitation status is no longer pending and cannot be changed",
-        },
-        { status: 400 }
-      );
-    }
-
     // If the user accepts, assign them to the group and update the invitation status
     if (response === "ACCEPTED") {
       if (invitation.user.groupId) {
@@ -69,9 +59,24 @@ export async function PATCH(request: Request) {
         );
       }
 
+      // Assign the user to the group
       await prisma.user.update({
         where: { id: userId },
         data: { groupId: invitation.groupId },
+      });
+
+      // Assign all existing tasks in the group to the user
+      const existingTasks = await prisma.task.findMany({
+        where: { groupId: invitation.groupId },
+      });
+
+      const taskAssignments = existingTasks.map((task) => ({
+        taskId: task.id,
+        userId: userId,
+      }));
+
+      await prisma.taskAssignment.createMany({
+        data: taskAssignments,
       });
     }
 

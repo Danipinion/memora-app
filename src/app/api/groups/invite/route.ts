@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, InvitationStatus } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -72,14 +72,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if there is already a pending or accepted invitation for this user and group
+    // Check if there's already a pending or accepted invitation for this user to this group
     const existingInvitation = await prisma.groupInvitation.findFirst({
       where: {
-        groupId: groupId,
+        groupId,
         userId: invitedUser.id,
-        status: {
-          in: [InvitationStatus.PENDING, InvitationStatus.ACCEPTED],
-        },
+        status: { in: ["PENDING", "ACCEPTED"] },
       },
     });
 
@@ -98,7 +96,7 @@ export async function POST(request: Request) {
       data: {
         groupId,
         userId: invitedUser.id,
-        status: InvitationStatus.PENDING,
+        status: "PENDING",
       },
     });
 

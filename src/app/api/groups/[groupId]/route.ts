@@ -3,16 +3,15 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// GET /api/groups/{groupId}/members
+// GET /api/groups/[groupId]/details
 export async function GET(
   request: Request,
   { params }: { params: { groupId: string } }
 ) {
-  const { groupId } = params;
-  const groupIdNumber = Number(groupId);
+  const groupId = Number(params.groupId);
 
   // Validate input
-  if (!groupIdNumber) {
+  if (!groupId) {
     return NextResponse.json(
       { error: "Group ID is required" },
       { status: 400 }
@@ -20,16 +19,26 @@ export async function GET(
   }
 
   try {
-    // Check if the group exists
+    // Fetch the group details including members, invitations, and tasks
     const group = await prisma.group.findUnique({
-      where: { id: groupIdNumber },
-      include: {
+      where: { id: groupId },
+      select: {
+        id: true,
+        name: true,
         members: {
           select: {
             id: true,
             username: true,
             email: true,
-            createdAt: true,
+          },
+        },
+        tasks: {
+          include: {
+            assignments: {
+              include: {
+                user: true,
+              },
+            },
           },
         },
       },
@@ -39,12 +48,11 @@ export async function GET(
       return NextResponse.json({ error: "Group not found" }, { status: 404 });
     }
 
-    // Return the list of members
-    return NextResponse.json(group.members, { status: 200 });
+    return NextResponse.json(group, { status: 200 });
   } catch (error) {
-    console.error("Error retrieving group members:", error);
+    console.error("Error fetching group details:", error);
     return NextResponse.json(
-      { error: "Error retrieving group members" },
+      { error: "Error fetching group details" },
       { status: 500 }
     );
   }
