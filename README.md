@@ -67,7 +67,7 @@ memora/
 
 ## 🌍 Live Demo
 
-Check out the live demo of Memora [here](https://memora-demo-url.com).
+Check out the live demo of Memora [here](https://memora-app-sigma.vercel.app/).
 
 ---
 
