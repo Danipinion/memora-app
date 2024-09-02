@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     groupId: groupIdString,
     userId: userIdString,
   } = await request.json();
+
   const groupId = groupIdString ? Number(groupIdString) : null;
   const userId = Number(userIdString);
 
@@ -24,6 +25,28 @@ export async function POST(request: Request) {
   }
 
   try {
+    let isPersonalTask = false;
+
+    if (groupId) {
+      // Check if the user is part of the group
+      const groupMembership = await prisma.user.findFirst({
+        where: {
+          id: userId,
+          groupId: groupId,
+        },
+      });
+
+      if (!groupMembership) {
+        return NextResponse.json(
+          { error: "User is not a member of the specified group" },
+          { status: 403 } // Forbidden status
+        );
+      }
+    } else {
+      // No group ID provided; treat it as a personal task
+      isPersonalTask = true;
+    }
+
     // Create the task
     const taskData: any = {
       title,
@@ -32,7 +55,7 @@ export async function POST(request: Request) {
       completed: false,
     };
 
-    if (groupId) {
+    if (!isPersonalTask && groupId) {
       taskData.group = { connect: { id: groupId } };
     }
 
@@ -40,14 +63,8 @@ export async function POST(request: Request) {
       data: taskData,
     });
 
-    // If the task is part of a group, assign it to all group members
-    if (groupId) {
-      const group = await prisma.group.findUnique({ where: { id: groupId } });
-
-      if (!group) {
-        return NextResponse.json({ error: "Group not found" }, { status: 404 });
-      }
-
+    if (!isPersonalTask && groupId) {
+      // If the task is part of a group, assign it to all group members
       const members = await prisma.user.findMany({
         where: { groupId },
       });
