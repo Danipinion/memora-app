@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Epilogue, Inter, Montserrat, Montserrat_Alternates } from "next/font/google";
+import {
+  Epilogue,
+  Inter,
+  Montserrat,
+  Montserrat_Alternates,
+} from "next/font/google";
 import "./globals.css";
 
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-config.autoAddCss = false
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 
 const mont = Montserrat({ subsets: ["latin"] });
 
