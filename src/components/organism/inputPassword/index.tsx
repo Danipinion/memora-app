@@ -7,9 +7,10 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 interface InputDataProps {
     name: string;
     placeholder: string;
+    field: any;
 }
 
-export default function InputPassword({ placeholder, name }: InputDataProps) {
+export default function InputPassword({ placeholder, name, field }: InputDataProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     const PasswordVisibility = () => {

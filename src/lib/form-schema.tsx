@@ -1,21 +1,29 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z.string({ required_error: 'Email is required' }).min(1, { message: 'Email tidak boleh kosong!' }),
-  password: z.string({ required_error: 'Password is required' }).min(1, { message: 'Password tidak boleh kosong!' }),
+  emailOrUsername: z.string().email("Email/username is required!"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/(?=.*[a-z])/, "Must contain at least one lowercase letter")
+    .regex(/(?=.*[A-Z])/, "Must contain at least one uppercase letter")
+    .regex(/(?=.*[0-9])/, "Must contain at least one number")
+    .regex(/(?=.*[!@#$%^&*])/, "Must contain at least one special character"),
 });
 
 export const registerSchema = z.object({
-  username: z.string({ required_error: 'Username is required' }).min(1, { message: 'Username tidak boleh kosong!' }),
-  email: z.string({ required_error: 'Email is required' }).min(1, { message: 'Email tidak boleh kosong!' }),
-  password: z.string({ required_error: 'Password is required' }).min(1, { message: 'Password tidak boleh kosong!' }),
-  confirmPassword: z.string({ required_error: 'Confirm your password first' }).min(1, { message: 'Konfirmasi password tidak boleh kosong!' }),
-}).superRefine(({ password, confirmPassword }, ctx) => {
-  if (password !== confirmPassword) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Password tidak sesuai!',
-      path: ['confirmPassword'], 
-    });
-  }
+  username: z.string().min(1, "Username is required"),
+  email: z.string().email("Invalid email address"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/(?=.*[a-z])/, "Must contain at least one lowercase letter")
+    .regex(/(?=.*[A-Z])/, "Must contain at least one uppercase letter")
+    .regex(/(?=.*[0-9])/, "Must contain at least one number")
+    .regex(/(?=.*[!@#$%^&*])/, "Must contain at least one special character"),
+  confirmPassword: z.string().min(1, "Please confirm your password"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
+

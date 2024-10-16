@@ -11,12 +11,16 @@ import React from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useToast } from '@/hooks/use-toast';
+
+type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
     const router = useRouter()
     const title = 'Daftar dulu ya!'
     const subtitle = 'Daftar akun untuk melanjutkan'
     const sublogin = 'Sudah punya akun?'
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -28,8 +32,39 @@ export default function RegisterPage() {
         },
     });
 
-    const onSubmit = async (val: z.infer<typeof registerSchema>) => {
-        console.log(val);
+    const onSubmit = async (formData: RegisterForm) => {
+        console.log(formData);
+
+        try {
+            const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (res.ok) {
+                toast({
+                    title: "Berhasil membuat akun!",
+                    style: {
+                        color: "#66BB6A",
+                    }
+                });
+                router.push("/login");
+            } else {
+                toast({
+                    title: "Gagal membuat akun!",
+                    description: "Terjadi kesalahan",
+                    style: {
+                        color: "#FF0000",
+                    }
+                });
+                console.log(res)
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
 
     return (
@@ -48,12 +83,22 @@ export default function RegisterPage() {
                             </div>
 
                             <div className='shadow-md w-full p-10 space-y-5 text-sm text-slate-700'>
-                                <Form {...form}>
-                                    <InputData name='username' placeholder='Masukkan Username' {...registerSchema} />
-                                    <InputData name='email' placeholder='Masukkan E-mail' {...registerSchema} />
-                                    <InputPassword name='password' placeholder='Masukkan Password' {...registerSchema} />
-                                    <InputPassword name='confirmPassword' placeholder='Konfirmasi Password' {...registerSchema} />
-                                </Form>
+                                <InputData
+                                    placeholder='Masukkan Username'
+                                    name='username'
+                                    field={{ ...form.register('username') }} />
+                                <InputData
+                                    placeholder='Masukkan E-mail'
+                                    name='email'
+                                    field={{ ...form.register('email') }} />
+                                <InputPassword
+                                    placeholder='Masukkan Password'
+                                    name='password'
+                                    field={{ ...form.register('password') }} />
+                                <InputPassword
+                                    placeholder='Konfirmasi Password'
+                                    name='confirmPassword'
+                                    field={{ ...form.register('confirmPassword') }} />
                             </div>
                         </div>
 

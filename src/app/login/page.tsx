@@ -13,23 +13,58 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { z } from 'zod';
+import { useToast } from '@/hooks/use-toast';
+
+type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
     const router = useRouter()
     const title = 'Hai, sudah punya akun?'
     const subtitle = 'Masuk ke akun yang sudah ada'
     const subregist = 'Belum punya akun?'
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            email: "",
+            emailOrUsername: "",
             password: "",
         },
     });
 
-    const onSubmit = async (val: z.infer<typeof loginSchema>) => {
-        console.log(val);
+    const onSubmit = async (formData: LoginForm) => {
+        console.log(formData);
+
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (res.ok) {
+                toast({
+                    title: "Berhasil masuk!",
+                    style: {
+                        color: "#66BB6A",
+                    }
+                });
+                router.push("/dashboard");
+            } else {
+                toast({
+                    title: "Gagal masuk",
+                    description: "Terjadi kesalahan",
+                    style: {
+                        color: "#FF0000",
+                    }
+                });
+                console.log(res)
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
 
     return (
@@ -48,8 +83,14 @@ export default function LoginPage() {
                             </div>
 
                             <div className='shadow-md w-full p-10 space-y-5 text-sm text-slate-700'>
-                                <InputData name='email' placeholder='Masukkan E-mail' {...loginSchema} />
-                                <InputPassword name='password' placeholder='Masukkan Password' {...loginSchema} />
+                                <InputData
+                                    name='email'
+                                    field={{ ...form.register('emailOrUsername') }}
+                                    placeholder='Masukkan E-mail' />
+                                <InputPassword
+                                    name='password'
+                                    field={{ ...form.register('password') }}
+                                    placeholder='Masukkan Password' />
                             </div>
                         </div>
 
