@@ -1,43 +1,50 @@
+import AddTask from "@/components/organism/addTaskButton";
 import CardTask from "@/components/organism/cardTask";
-import { CONTOH_GRID, CONTOH_TUGAS } from "@/constant";
+import DashboardCard from "@/components/organism/dashboardCard";
+import MenuBar from "@/components/organism/menuBar";
+import PurpleBox from "@/components/organism/purpleBox";
+import { CONTOH_TUGAS } from "@/constant";
 
 export default function DashboardPage() {
   return (
-    <div className="h-screen mx-5">
-      <div className="mb-5 my-5">
-        <p className="text-xl font-semibold" style={{ color: "#6C63FF" }}>
-          Selamat datang, Ardhana
-        </p>
-        <p className="text-sm text-slate-700">Segera tuntaskan tugasmu, ya!</p>
-      </div>
+    <div className="h-screen">
 
-      <div className="shadow-md flex justify-center">
-        <div className="grid grid-cols-4">
-          {CONTOH_GRID.map((item, index) => (
-            <div
-              className="bg-slate-300 m-5 w-[50px] h-[50px] rounded-sm text-center"
+      <PurpleBox />
+
+      <div className="mx-5 pb-20 z-10">
+        <div className="mb-5 my-5">
+          <p className="text-xl font-semibold text-white">
+            Selamat datang, Ardhana
+          </p>
+          <p className="text-sm text-white">Segera tuntaskan tugasmu, ya!</p>
+        </div>
+
+        <DashboardCard />
+
+        <div className="mb-5 my-5">
+          <p className="text-sm text-slate-500">Berikut tugas kamu, ya</p>
+        </div>
+
+        <div className="space-y-5">
+          {CONTOH_TUGAS.map((item, index) => (
+            <CardTask
               key={index}
-            >
-              <div className="p-2">{item.item}</div>
-            </div>
+              title={item.title}
+              mapel={item.mapel}
+              deadline={item.deadline}
+              time={item.time}
+            />
           ))}
         </div>
+
       </div>
 
-      <div className="mb-5 my-5">
-        <p className="text-sm text-slate-700">Berikut tugas kamu, ya</p>
+      <div>
+        <AddTask />
       </div>
 
-      <div className="space-y-5">
-        {CONTOH_TUGAS.map((item, index) => (
-          <CardTask
-            key={index}
-            title={item.title}
-            mapel={item.mapel}
-            deadline={item.deadline}
-            time={item.time}
-          />
-        ))}
+      <div>
+        <MenuBar />
       </div>
     </div>
   );
