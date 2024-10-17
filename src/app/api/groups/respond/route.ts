@@ -11,7 +11,7 @@ export async function PATCH(request: Request) {
     response,
   } = await request.json();
   const invitationId = Number(invitationIdString);
-  const userId = Number(userIdString);
+  const userId = userIdString;
 
   // Validate input
   if (!invitationId || !userId || !response) {

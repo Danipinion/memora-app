@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function PATCH(request: Request) {
   const { taskId: taskIdString, userId: userIdString } = await request.json();
   const taskId = Number(taskIdString);
-  const userId = Number(userIdString);
+  const userId = userIdString;
 
   // Validate input
   if (!taskId || !userId) {

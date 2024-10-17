@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   } = await request.json();
 
   const groupId = groupIdString ? Number(groupIdString) : null;
-  const userId = Number(userIdString);
+  const userId = userIdString;
 
   // Validate input
   if (!title || !description || !deadline || userId === undefined) {

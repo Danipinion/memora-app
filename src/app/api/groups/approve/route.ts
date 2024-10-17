@@ -18,7 +18,7 @@ export async function PATCH(request: Request) {
   try {
     // Check if the admin exists and is an admin
     const admin = await prisma.user.findUnique({
-      where: { id: Number(adminId) },
+      where: { id: adminId },
     });
 
     if (!admin || admin.role !== "ADMIN") {

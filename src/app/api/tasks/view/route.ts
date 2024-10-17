@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 // GET /api/tasks/view
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const userId = Number(url.searchParams.get("userId"));
+  const userId = url.searchParams.get("userId");
   const groupId = Number(url.searchParams.get("groupId"));
 
   if (!userId && !groupId) {
