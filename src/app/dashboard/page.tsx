@@ -1,12 +1,14 @@
+import { auth } from "@/auth";
 import CardTask from "@/components/organism/cardTask";
 import { CONTOH_GRID, CONTOH_TUGAS } from "@/constant";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const session = await auth();
   return (
     <div className="h-screen mx-5">
       <div className="mb-5 my-5">
         <p className="text-xl font-semibold" style={{ color: "#6C63FF" }}>
-          Selamat datang, Ardhana
+          Selamat datang, Ardhana {JSON.stringify(session)}
         </p>
         <p className="text-sm text-slate-700">Segera tuntaskan tugasmu, ya!</p>
       </div>

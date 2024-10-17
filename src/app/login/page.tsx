@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { login } from "@/actions/login";
 
 type LoginForm = z.infer<typeof loginSchema>;
 
@@ -33,38 +34,7 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (formData: LoginForm) => {
-    console.log(formData);
-
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        toast({
-          title: "Berhasil masuk!",
-          style: {
-            color: "#66BB6A",
-          },
-        });
-        router.push("/dashboard");
-      } else {
-        toast({
-          title: "Gagal masuk",
-          description: "Terjadi kesalahan",
-          style: {
-            color: "#FF0000",
-          },
-        });
-        console.log(res);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    login(formData);
   };
 
   return (
