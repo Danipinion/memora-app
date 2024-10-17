@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Input } from "@/components/ui/input"; // Jika Anda menggunakan Input dari shadcn
+import { Input } from "@/components/ui/input"; 
 import {
   FormControl,
   FormField,

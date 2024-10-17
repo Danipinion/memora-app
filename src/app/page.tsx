@@ -11,7 +11,7 @@ export default function Home() {
   const descText = "Organize Your Tasks!";
 
   return (
-    <div className="h-screen" style={{ backgroundColor: "#6C63FF" }}>
+    <div className="h-screen bg-purple">
       <div>
         <PageTransitionWhite />
       </div>
