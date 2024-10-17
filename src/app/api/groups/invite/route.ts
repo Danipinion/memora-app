@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     inviterId: inviterIdString,
   } = await request.json();
   const groupId = Number(groupIdString);
-  const inviterId = Number(inviterIdString);
+  const inviterId = inviterIdString;
 
   // Validate input
   if (!groupId || !username || !inviterId) {
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     }
 
     // Check if the inviter is the creator of the group
-    if (group.creatorId !== inviterId) {
+    if (group.creatorId != inviterId) {
       return NextResponse.json(
         { error: "Only the group creator can invite users" },
         { status: 403 }

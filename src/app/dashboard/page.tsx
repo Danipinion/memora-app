@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import AddTask from "@/components/organism/addTaskButton";
 import CardTask from "@/components/organism/cardTask";
 import DashboardCard from "@/components/organism/dashboardCard";
@@ -5,7 +6,8 @@ import MenuBar from "@/components/organism/menuBar";
 import PurpleBox from "@/components/organism/purpleBox";
 import { CONTOH_TUGAS } from "@/constant";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const session = await auth();
   return (
     <div className="h-screen">
 
@@ -14,7 +16,7 @@ export default function DashboardPage() {
       <div className="mx-5 pb-20 z-10">
         <div className="mb-5 my-5">
           <p className="text-xl font-semibold text-white">
-            Selamat datang, Ardhana
+            Selamat datang, Ardhana {JSON.stringify(session)}
           </p>
           <p className="text-sm text-white">Segera tuntaskan tugasmu, ya!</p>
         </div>

@@ -6,8 +6,8 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = Number(params.id);
-  if (isNaN(id)) {
+  const id = params.id;
+  if (!id) {
     return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
   }
   try {
@@ -26,7 +26,7 @@ export async function GET(
 }
 
 async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+  const id = params.id;
   console.log("🚀 ~ PATCH ~ id:", id);
   const { username, email, password, role }: User = await request.json();
 
@@ -67,7 +67,7 @@ async function PATCH(request: Request, { params }: { params: { id: string } }) {
 
   try {
     const updatedUser = await prisma.user.update({
-      where: { id: Number(id) },
+      where: { id: id },
       data: { username, email, password, role },
     });
     return NextResponse.json(updatedUser);
@@ -80,10 +80,10 @@ async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = Number(params.id);
+  const id = params.id;
   try {
     await prisma.user.delete({
-      where: { id: Number(id) },
+      where: { id: id },
     });
     return NextResponse.json({ message: "User deleted successfully" });
   } catch (error) {

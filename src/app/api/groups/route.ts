@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   try {
     // Check if the user exists
     const user = await prisma.user.findUnique({
-      where: { id: Number(creatorId) },
+      where: { id: creatorId },
     });
 
     if (!user) {
@@ -36,14 +36,14 @@ export async function POST(request: Request) {
     const newGroup = await prisma.group.create({
       data: {
         name,
-        creator: { connect: { id: Number(creatorId) } },
+        creator: { connect: { id: creatorId } },
         isApproved: false,
       },
     });
 
     // Update the user's current group
     await prisma.user.update({
-      where: { id: Number(creatorId) },
+      where: { id: creatorId },
       data: { groupId: newGroup.id },
     });
 

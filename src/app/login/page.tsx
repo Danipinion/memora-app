@@ -13,8 +13,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { login } from "@/actions/login";
 import { PageTransitionWhite } from "@/components/PageTransition";
 import LoadingComponent from "@/components/organism/Loading";
+
 
 type LoginForm = z.infer<typeof loginSchema>;
 
@@ -34,42 +36,11 @@ export default function LoginPage() {
         },
     });
 
-    const onSubmit = async (formData: LoginForm) => {
-        console.log(formData);
-        setLoading(true);
-
-        try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (res.ok) {
-                toast({
-                    title: "Berhasil masuk!",
-                    style: {
-                        color: "#66BB6A",
-                    },
-                });
-                setLoading(false);
-                router.push("/dashboard");
-            } else {
-                toast({
-                    title: "Gagal masuk",
-                    description: "Terjadi kesalahan",
-                    style: {
-                        color: "#FF0000",
-                    },
-                });
-                console.log(res);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+  const onSubmit = async (formData: LoginForm) => {
+    setLoading(true);
+    await login(formData);
+    setLoading(false);
+  };
 
     return (
         <div className="mx-5">
