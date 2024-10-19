@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import { AuthError } from "next-auth";
-
 import { loginSchema } from "@/lib/form-schema";
 import { signIn } from "@/auth";
 import { default_login_redirect } from "@/routes";

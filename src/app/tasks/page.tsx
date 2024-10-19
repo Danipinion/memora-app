@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { CONTOH_TUGAS } from "@/constant";
-import CardTask from "@/components/organism/cardTask";
-import AddTask from "@/components/organism/addTaskButton";
-import MenuBar from "@/components/organism/menuBar";
+import { CardTask } from "@/components/organism/cardTask";
+import { AddTask } from "@/components/organism/addTaskButton";
+import { MenuBar } from "@/components/organism/menuBar";
 
 export default function TasksPage() {
     const router = useRouter();

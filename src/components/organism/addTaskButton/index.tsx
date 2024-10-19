@@ -1,7 +1,7 @@
 import { faHome, faPlus, faTasks, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function AddTask() {
+export const AddTask = () => {
     return (
         <div className="fixed w-[15%] bottom-20 right-5">
             <div className="shadow-md bg-purple rounded-full p-[1rem]">

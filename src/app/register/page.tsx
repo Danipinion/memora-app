@@ -1,7 +1,5 @@
 "use client";
 
-import InputData from "@/components/organism/inputData";
-import InputPassword from "@/components/organism/inputPassword";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { registerSchema } from "@/lib/form-schema";
@@ -14,7 +12,9 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { PageTransitionWhite } from "@/components/PageTransition";
 import { motion } from "framer-motion";
-import LoadingComponent from "@/components/organism/Loading";
+import { LoadingComponent } from "@/components/organism/Loading";
+import { InputData } from "@/components/organism/inputData";
+import { InputPassword } from "@/components/organism/inputPassword";
 
 type RegisterForm = z.infer<typeof registerSchema>;
 

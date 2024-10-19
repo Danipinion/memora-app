@@ -1,12 +1,11 @@
 'use client'
 
-import { Input } from "@/components/ui/input";
 import { CONTOH_PROFILE } from "@/constant";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
-export default function DataProfile() {
+export const DataProfile = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const PasswordVisibility = () => {

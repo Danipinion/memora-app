@@ -13,11 +13,7 @@ interface InputDataProps {
   field?: any;
 }
 
-export default function InputData({
-  placeholder,
-  name,
-  field,
-}: InputDataProps) {
+export const InputData = ({ placeholder, name, field }: InputDataProps) => {
   return (
     <div className="relative">
       <FormField

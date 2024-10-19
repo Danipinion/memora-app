@@ -1,9 +1,10 @@
+import Image from "next/image";
 
-export default function IconProfile() {
+export const IconProfile = () => {
     return (
-        <div className="flex justify-center items-center">
-            <div className="w-[25%]">
-                <img className="rounded-full shadow-md" src={'/icon-profile.svg'} />
+        <div className="flex justify-center items-center mx-auto">
+            <div>
+                <Image alt="" width={150} height={150} className="rounded-full shadow-md" src={'/icon-profile.svg'} />
             </div>
         </div>
     )

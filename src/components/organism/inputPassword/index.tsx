@@ -16,11 +16,7 @@ interface InputDataProps {
   field?: any;
 }
 
-export default function InputPassword({
-  placeholder,
-  name,
-  field,
-}: InputDataProps) {
+export const InputPassword = ({ placeholder, name, field }: InputDataProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const PasswordVisibility = () => {

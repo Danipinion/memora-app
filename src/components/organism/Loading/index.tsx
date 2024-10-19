@@ -1,6 +1,6 @@
 import MoonLoader from "react-spinners/MoonLoader";
 
-export default function LoadingComponent() {
+export const LoadingComponent = () => {
     return (
         <div className="w-full h-screen bg-white flex justify-center items-center">
             <MoonLoader

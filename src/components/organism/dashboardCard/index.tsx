@@ -1,6 +1,6 @@
-import IconEdu from "../iconEdu";
+import { IconEdu } from "../iconEdu"
 
-export default function DashboardCard() {
+export const DashboardCard = () => {
     return (
         <div className="shadow-md bg-white rounded-md flex justify-center">
             <div className="p-5">

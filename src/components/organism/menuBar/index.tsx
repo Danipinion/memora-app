@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function MenuBar() {
+export const MenuBar = () => {
     const pathname = usePathname();
 
     const getActiveLinkId = (path: string) => {

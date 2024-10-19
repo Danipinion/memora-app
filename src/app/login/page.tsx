@@ -1,12 +1,9 @@
 "use client";
 
-import InputData from "@/components/organism/inputData";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import InputPassword from "@/components/organism/inputPassword";
 import { loginSchema } from "@/lib/form-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,13 +12,14 @@ import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { login } from "@/actions/login";
 import { PageTransitionWhite } from "@/components/PageTransition";
-import LoadingComponent from "@/components/organism/Loading";
-
+import { LoadingComponent } from "@/components/organism/Loading";
+import { InputData } from "@/components/organism/inputData";
+import { InputPassword } from "@/components/organism/inputPassword";
 
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-    const router = useRouter();
+    
     const title = "Hai, sudah punya akun?";
     const subtitle = "Masuk ke akun yang sudah ada";
     const subregist = "Belum punya akun?";
@@ -36,11 +34,27 @@ export default function LoginPage() {
         },
     });
 
-  const onSubmit = async (formData: LoginForm) => {
-    setLoading(true);
-    await login(formData);
-    setLoading(false);
-  };
+    const onSubmit = async (formData: LoginForm) => {
+        setLoading(true);
+        const result = await login(formData);
+
+        if (result?.error) {
+            toast({
+                title: 'Login Gagal!',
+                style: {
+                    color: '#EF5350',
+                }
+            })
+        } else {
+            toast({
+                title: 'Login Berhasil!',
+                style: {
+                    color: '#66BB6A',
+                }
+            })
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="mx-5">

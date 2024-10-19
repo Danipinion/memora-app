@@ -6,7 +6,7 @@ interface taskProps {
     time: string,
 }
 
-export default function CardTask({ title, mapel, deadline, time }: taskProps) {
+export const CardTask = ({ title, mapel, deadline, time }: taskProps) => {
     return (
         <div className="shadow-md p-5">
             <div>
