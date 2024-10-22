@@ -1,23 +1,17 @@
 import { auth } from "@/auth";
+import { PrismaClient } from "@prisma/client";
 
 export const getUserById = async () => {
+  const prisma = new PrismaClient();
   const session = await auth();
 
   try {
-    const response = await fetch(`/api/users/${session?.user?.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const user = await prisma.user.findUnique({
+      where: { id: session?.user?.id },
+      include: { groupInvitations: true, TaskAssignment: true },
     });
 
-    const data = await response.json();
-    
-    if (Array.isArray(data)) {
-      return data;
-    } else {
-      console.log("Invalid data format");
-    }
+    return user;
   } catch {
     console.log("error");
   }

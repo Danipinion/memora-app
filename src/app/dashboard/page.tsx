@@ -1,4 +1,3 @@
-
 import { auth } from "@/auth";
 import { AddTask } from "@/components/organism/addTaskButton";
 import { CardTask } from "@/components/organism/cardTask";
@@ -6,19 +5,19 @@ import { DashboardCard } from "@/components/organism/dashboardCard";
 import { MenuBar } from "@/components/organism/menuBar";
 import { PurpleBox } from "@/components/organism/purpleBox";
 import { CONTOH_TUGAS } from "@/constant";
+import { getUserById } from "@/actions/getUserId";
 
 export default async function DashboardPage() {
-  const session = await auth();
-  
+  const userData = await getUserById();
+
   return (
     <div className="h-screen">
-
       <PurpleBox />
 
       <div className="mx-5 pb-20 z-10">
         <div className="mb-5 my-5">
           <p className="text-xl font-semibold text-white">
-            Selamat datang, 
+            Selamat datang, {userData?.username}
           </p>
           <p className="text-sm text-white">Segera tuntaskan tugasmu, ya!</p>
         </div>
@@ -40,7 +39,6 @@ export default async function DashboardPage() {
             />
           ))}
         </div>
-
       </div>
 
       <div>
