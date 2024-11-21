@@ -31,6 +31,7 @@ export default function RegisterPage() {
         defaultValues: {
             username: "",
             email: "",
+            number: "",
             password: "",
             confirmPassword: "",
         },
@@ -111,6 +112,11 @@ export default function RegisterPage() {
                                             placeholder="Masukkan E-mail"
                                             name="email"
                                             field={{ ...form.register("email") }}
+                                        />
+                                        <InputData
+                                            placeholder="Masukkan No HP"
+                                            name="number"
+                                            field={{ ...form.register("number") }}
                                         />
                                         <InputPassword
                                             placeholder="Masukkan Password"

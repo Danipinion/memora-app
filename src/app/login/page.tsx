@@ -15,6 +15,7 @@ import { PageTransitionWhite } from "@/components/PageTransition";
 import { LoadingComponent } from "@/components/organism/Loading";
 import { InputData } from "@/components/organism/inputData";
 import { InputPassword } from "@/components/organism/inputPassword";
+import { useRouter } from "next/navigation";
 
 type LoginForm = z.infer<typeof loginSchema>;
 
@@ -25,6 +26,7 @@ export default function LoginPage() {
     const subregist = "Belum punya akun?";
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
