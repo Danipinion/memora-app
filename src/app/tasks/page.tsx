@@ -1,13 +1,11 @@
-"use client";
 
-import { useRouter } from "next/navigation";
-import { CONTOH_TUGAS } from "@/constant";
 import { CardTask } from "@/components/organism/cardTask";
-import { AddTask } from "@/components/organism/addTaskButton";
+import { AddTask } from "@/components/organism/modalAddTask";
 import { MenuBar } from "@/components/organism/menuBar";
+import { getTasks } from "@/actions/getTasks";
 
-export default function TasksPage() {
-    const router = useRouter();
+export default async function TasksPage() {
+    const tasksData = await getTasks();
 
     return (
         <div className="h-screen">
@@ -21,13 +19,13 @@ export default function TasksPage() {
 
                 <div>
                     <div className="space-y-5">
-                        {CONTOH_TUGAS.map((item, index) => (
+                        {tasksData?.map((item, index) => (
                             <CardTask
                                 key={index}
                                 title={item.title}
-                                mapel={item.mapel}
+                                description={item.description}
                                 deadline={item.deadline}
-                                time={item.time}
+                                
                             />
                         ))}
                     </div>

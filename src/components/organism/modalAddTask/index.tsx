@@ -19,7 +19,7 @@ export const AddTask = () => {
             <Dialog>
                 <DialogTrigger>
                     <div className="shadow-md rounded-full bg-purple p-5">
-                        <FontAwesomeIcon className="text-white" icon={faPlus} />
+                        <FontAwesomeIcon className="text-white w-6 h-6" icon={faPlus} />
                     </div>
                 </DialogTrigger>
                 <DialogContent className="w-[90%]">

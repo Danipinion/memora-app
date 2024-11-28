@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { AddTask } from "@/components/organism/addTaskButton";
+import { AddTask } from "@/components/organism/modalAddTask";
 import { CardTask } from "@/components/organism/cardTask";
 import { DashboardCard } from "@/components/organism/dashboardCard";
 import { MenuBar } from "@/components/organism/menuBar";

@@ -6,6 +6,7 @@ import { getUserById } from "@/actions/getUserId";
 
 export default async function ProfilePage() {
   const userData = await getUserById();
+  
   return (
     <div className="h-screen">
       <div className="mx-5 flex justify-between">

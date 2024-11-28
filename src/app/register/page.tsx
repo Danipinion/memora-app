@@ -20,9 +20,6 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
     const router = useRouter();
-    const title = "Daftar dulu ya!";
-    const subtitle = "Daftar akun untuk melanjutkan";
-    const sublogin = "Sudah punya akun?";
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);
 
@@ -97,9 +94,9 @@ export default function RegisterPage() {
                                             className="text-2xl font-semibold"
                                             style={{ color: "#6C63FF" }}
                                         >
-                                            {title}
+                                            Daftar dulu ya!
                                         </div>
-                                        <div className="text-slate-700">{subtitle}</div>
+                                        <div className="text-slate-700">Mohon daftar akun terlebih dahulu untuk melanjutkan</div>
                                     </div>
 
                                     <div className="shadow-md w-full p-10 space-y-5 text-sm text-slate-700">
@@ -138,7 +135,7 @@ export default function RegisterPage() {
                                         Daftar
                                     </Button>
                                     <div className="flex justify-center gap-1 p-1 text-xs">
-                                        <p>{sublogin}</p>
+                                        <p>Sudah punya akun?</p>
                                         <Link href={"/login"} className="text-slate-700 font-semibold">
                                             Masuk
                                         </Link>
