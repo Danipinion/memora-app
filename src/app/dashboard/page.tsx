@@ -28,7 +28,7 @@ export default async function DashboardPage() {
           <p className="text-sm text-slate-500">Berikut tugas kamu, ya</p>
         </div>
 
-        <div className="space-y-5">
+        {/* <div className="space-y-5">
           {CONTOH_TUGAS.map((item, index) => (
             <CardTask
               key={index}
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
               time={item.time}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div>
