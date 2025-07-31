@@ -60,6 +60,7 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			},
 			purple: '#6C63FF',
+			text: '#4B5563'
   		}
   	}
   },

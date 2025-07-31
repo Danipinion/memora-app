@@ -1,18 +1,35 @@
+"use server";
+
 import { auth } from "@/auth";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/prisma";
 
 export const getUserById = async () => {
-  const prisma = new PrismaClient();
-  const session = await auth();
-
   try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return null;
+    }
+
     const user = await prisma.user.findUnique({
-      where: { id: session?.user?.id },
-      include: { groupInvitations: true, TaskAssignment: true },
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        number: true,
+        createdAt: true,
+        role: true
+      }
     });
 
     return user;
-  } catch {
-    console.log("error");
+
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    return null;
   }
 };

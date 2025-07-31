@@ -24,3 +24,18 @@ export const registerSchema = z.object({
   path: ["confirmPassword"],
 });
 
+export const groupsSchema = z.object({
+  name: z.string().min(1, "Group name is required.")
+})
+
+export const taskSchema = z.object({
+  title: z.string().min(3, { message: "Judul minimal 3 karakter." }),
+  description: z.string(),
+  deadline: z.date({ required_error: "Tanggal deadline harus diisi." }),
+  groupId: z.number(),
+  assignedUserIds: z.array(z.string()).min(1, "Pilih minimal satu anggota."),
+});
+
+export const inviteSchema = z.object({
+  username: z.string().min(1, "Username tidak boleh kosong."),
+});
